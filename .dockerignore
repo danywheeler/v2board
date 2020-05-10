@@ -8,6 +8,7 @@ composer.phar
 yarn.lock
 Dockerfile
 storage/*/*
+config/v2board.php
 !storage/framework/*
 storage/framework/*/*
 .phpunit.result.cache
