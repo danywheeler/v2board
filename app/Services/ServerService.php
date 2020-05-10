@@ -115,8 +115,8 @@ class ServerService
             $tlsSettings = json_decode($server->tlsSettings);
             $json->inbound->streamSettings->security = 'tls';
             $tls = (object)[
-                'certificateFile' => '/home/v2ray.crt',
-                'keyFile' => '/home/v2ray.key'
+                'certificateFile' => '/etc/v2ray/v2ray.crt',
+                'keyFile' => '/etc/v2ray/v2ray.key'
             ];
             $json->inbound->streamSettings->tlsSettings = new \StdClass();
             if (isset($tlsSettings->serverName)) {
