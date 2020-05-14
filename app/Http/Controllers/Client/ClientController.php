@@ -152,6 +152,7 @@ class ClientController extends Controller
         $proxy = [];
         $proxyGroup = [];
         $proxies = [];
+        $fallbackProxies = [];
         $rules = [];
         foreach ($server as $item) {
             $array = [];
@@ -177,30 +178,35 @@ class ClientController extends Controller
                 }
             }
             array_push($proxy, $array);
-            array_push($proxies, $item->name);
+
+            if (preg_match('/^cf-/i', $item->name)) {
+                array_push($fallbackProxies, $item->name);
+            } else {
+                array_push($proxies, $item->name);
+            }
         }
 
         array_push($proxyGroup, [
             'name' => 'auto',
             'type' => 'url-test',
             'proxies' => $proxies,
-            'url' => 'https://www.bing.com',
+            'url' => 'http://www.gstatic.com/generate_204',
             'interval' => 300
         ]);
         array_push($proxyGroup, [
             'name' => 'fallback-auto',
             'type' => 'fallback',
-            'proxies' => $proxies,
-            'url' => 'https://www.bing.com',
+            'proxies' => $fallbackProxies,
+            'url' => 'http://www.gstatic.com/generate_204',
             'interval' => 300
         ]);
         array_push($proxyGroup, [
             'name' => 'select',
             'type' => 'select',
-            'proxies' => array_merge($proxies, [
+            'proxies' => array_merge([
                 'auto',
                 'fallback-auto'
-            ])
+            ], $proxies, $fallbackProxies)
         ]);
 
         try {
